@@ -1,5 +1,6 @@
 #include "binary_trees.h"
-
+#include <stdlib.h>
+#include <stdio.h>
 /**
 * binary_tree_size - Mesure la taille d'un arbre binaire
 * @tree: Pointeur vers le nœud racine de l'arbre à mesurer
