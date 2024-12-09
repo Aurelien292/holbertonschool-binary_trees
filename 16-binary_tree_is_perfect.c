@@ -13,10 +13,24 @@ size_t binary_tree_height(const binary_tree_t *tree)
 	if (tree == NULL)
 		return (0);
 
-	left_height = binary_tree_height(tree->left);
-	right_height = binary_tree_height(tree->right);
+	left_height = tree->left ? 1 + binary_tree_height(tree->left) : 0;
+	right_height = tree->right ? 1 + binary_tree_height(tree->right) : 0;
 
-	return (1 + (left_height > right_height ? left_height : right_height));
+	return (left_height > right_height ? left_height : right_height);
+}
+
+/**
+* binary_tree_size - Measures the size of a binary tree
+* @tree: Pointer to the root node of the tree to measure the size
+*
+* Return: Size of the tree, 0 if tree is NULL
+*/
+size_t binary_tree_size(const binary_tree_t *tree)
+{
+	if (tree == NULL)
+		return (0);
+
+	return (1 + binary_tree_size(tree->left) + binary_tree_size(tree->right));
 }
 
 /**
@@ -27,23 +41,15 @@ size_t binary_tree_height(const binary_tree_t *tree)
 */
 int binary_tree_is_perfect(const binary_tree_t *tree)
 {
-	size_t height, level = 0;
-	const binary_tree_t *current = tree;
+	size_t height, size, perfect_size;
 
 	if (tree == NULL)
 		return (0);
 
 	height = binary_tree_height(tree);
+	size = binary_tree_size(tree);
 
-	while (current)
-	{
-		if (current->left == NULL && current->right == NULL)
-			return (level == height - 1);
-		if (current->left == NULL || current->right == NULL)
-			return (0);
-		current = current->left;
-		level++;
-	}
+	perfect_size = (1 << (height + 1)) - 1;
 
-	return (1);
+	return (size == perfect_size);
 }
