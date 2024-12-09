@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 /**
- * binary_tree_insert_left - Insère un nœud comme enfant gauche d'un autre nœud
+ * binary_tree_insert_left - Insère un nœud comme enfant gauche d'un autre
  * @parent: Pointeur vers le nœud parent pour insérer l'enfant gauche
  * @value: La valeur à stocker dans le nouveau nœud
  *
