@@ -1,27 +1,50 @@
-#include "binary_trees.h"
 #include <stdlib.h>
+#include "binary_trees.h"
 
 /**
- * binary_tree_delete - Supprime un arbre binaire
- *
- * @tree: Un pointeur vers la racine de l'arbre à supprimer
- *
- * Return: Rien (void)
- *
- * Cette fonction supprime un arbre binaire en libérant récursivement tous
- * les nœuds de l'arbre, en commençant par les sous-arbres gauche et droit,
- * puis en libérant la mémoire allouée pour chaque nœud.
- * Si l'arbre est vide (c'est-à-dire si le pointeur 'tree' est NULL), la
- * fonction ne fait rien.
+ * binary_tree_delete - Supprime un arbre binaire entier
+ * @tree: Pointeur vers le nœud racine de l'arbre à supprimer
  */
 void binary_tree_delete(binary_tree_t *tree)
-
 {
+binary_tree_t *current, *temp;
+binary_tree_t **stack;
+int top = -1;
+int max_size = 1000; // Ajustez selon la taille maximale attendue de l'arbre
+
 if (tree == NULL)
 return;
 
-binary_tree_delete(tree->left);
-binary_tree_delete(tree->right);
+stack = malloc(sizeof(binary_tree_t*) * max_size);
+if (stack == NULL)
+return;
 
-free(tree);
+current = tree;
+
+while (current != NULL || top >= 0)
+{
+while (current != NULL)
+{
+if (current->right)
+stack[++top] = current->right;
+stack[++top] = current;
+current = current->left;
+}
+
+current = stack[top--];
+
+if (top >= 0 && current->right && current->right == stack[top])
+{
+temp = stack[top--];
+stack[++top] = current;
+current = temp;
+}
+else
+{
+free(current);
+current = NULL;
+}
+}
+
+free(stack);
 }
